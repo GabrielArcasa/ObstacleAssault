@@ -16,7 +16,7 @@ void AMovingPlatform::BeginPlay()
 {
 	Super::BeginPlay();
 
-
+	StartLocation = GetActorLocation();
 }
 
 
@@ -25,25 +25,21 @@ void AMovingPlatform::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	MovePlataform(DeltaTime);
-}
+	FVector CurrentLocation = GetActorLocation();
 
-void AMovingPlatform::MovePlataform(float DeltaTime)
-{
-	if (timePast <= duration)
+	CurrentLocation += PlatformVelocity * DeltaTime;
+
+	SetActorLocation(CurrentLocation);
+
+	float MovedDistance = FVector::Dist(StartLocation, CurrentLocation);
+
+
+	if (MovedDistance >= MaxDistance)
 	{
-		if (movingRight)
-			CubePosition.Y += 1;
-		else
-			CubePosition.Y -= 1;
-
-		SetActorLocation(CubePosition);
-		timePast += DeltaTime;
-
+		FVector MoveDirection = PlatformVelocity.GetSafeNormal();
+		StartLocation = StartLocation + MoveDirection * MaxDistance;
+		SetActorLocation(StartLocation);
+		PlatformVelocity = -PlatformVelocity;
 	}
-	else {
-		timePast = 0;
-		movingRight = !movingRight;
-	}
+
 }
-

@@ -10,28 +10,26 @@ UCLASS()
 class OBSTACLEASSAULT_API AMovingPlatform : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	AMovingPlatform();
 
-	
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-private:
-	void MovePlataform(float DeltaTime);
-public:	
+
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	UPROPERTY(EditAnywhere)
-	FVector CubePosition;
-	UPROPERTY(EditAnywhere)
-	float timePast = 0;
-	UPROPERTY(EditAnywhere)
 
-	float duration = 3;
+	UPROPERTY(EditAnywhere, Category = "Moving Platform")
+	FVector PlatformVelocity = FVector(100, 0, 0);
+	UPROPERTY(EditAnywhere, Category = "Moving Platform")
+	float MaxDistance = 100;
+	UPROPERTY(VisibleAnywhere, Category = "Moving Platform")
+	FVector StartLocation;
 
-	UPROPERTY(EditAnywhere)
-	bool movingRight = true;
+
 };
